@@ -1,24 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import mystery from './assets/mystery.mp3';
+import dark from './assets/dark.mp3';
+import cheery from './assets/cheery.mp3';
 
-function App() {
+import { useState } from 'react';
+import { TrackList } from './components/TrackList';
+import { PlayerControls } from './components/PlayerControls';
+import { MusicContext } from './contexts/MusicContext';
+
+const App = () => {
+
+  const [state, setState] = useState({
+    audioPlayer: new Audio(),
+    tracks: [
+      {
+      name: 'Mystery music..',
+      file: mystery
+      },
+      {
+      name: 'Dark music..',
+      file: dark
+      },
+      {
+      name: 'Cheery music..',
+      file: cheery
+      },
+    ],
+    currentTrackIndex: null,
+    isPlaying: false,
+  })
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+<MusicContext.Provider value={[state, setState]}>
+  <h2>Music Player using useContext</h2>
+  <div className="App">
+
+    <TrackList />
+    <PlayerControls />
+
+
+  </div>
+</MusicContext.Provider>
   );
 }
 
